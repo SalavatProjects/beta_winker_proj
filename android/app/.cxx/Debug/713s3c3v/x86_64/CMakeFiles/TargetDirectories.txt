@@ -1,0 +1,2 @@
+D:/MyFiles/Programming/mobileApps/beta_winker_proj/android/app/.cxx/Debug/713s3c3v/x86_64/CMakeFiles/edit_cache.dir
+D:/MyFiles/Programming/mobileApps/beta_winker_proj/android/app/.cxx/Debug/713s3c3v/x86_64/CMakeFiles/rebuild_cache.dir
