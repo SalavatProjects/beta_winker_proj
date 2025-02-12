@@ -76,7 +76,7 @@ abstract class AppStyles {
   static TextStyle gilroyRegularLightGrey2(double fontSize) {
     return TextStyle(
         fontFamily: 'Gilroy',
-        height: 1.1,
+        height: 1,
         fontSize: fontSize,
         fontWeight: FontWeight.w400,
         color: AppColors.lightGrey2
@@ -123,6 +123,16 @@ abstract class AppStyles {
     );
   }
 
+  static TextStyle gilroyRegularGrey2(double fontSize) {
+    return TextStyle(
+        fontFamily: 'Gilroy',
+        height: 1.1,
+        fontSize: fontSize,
+        fontWeight: FontWeight.w400,
+        color: AppColors.grey2
+    );
+  }
+
   static TextStyle gilroyRegularGrey3(double fontSize) {
     return TextStyle(
         fontFamily: 'Gilroy',
@@ -136,6 +146,16 @@ abstract class AppStyles {
   static TextStyle gilroyRegularWhite(double fontSize) {
     return TextStyle(
         fontFamily: 'Gilroy',
+        height: 1.1,
+        fontSize: fontSize,
+        fontWeight: FontWeight.w400,
+        color: AppColors.white
+    );
+  }
+
+  static TextStyle robotoRegularWhite(double fontSize) {
+    return TextStyle(
+        fontFamily: 'Roboto',
         height: 1.1,
         fontSize: fontSize,
         fontWeight: FontWeight.w400,

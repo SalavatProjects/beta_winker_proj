@@ -9,4 +9,20 @@ part 'project_state.dart';
 
 class ProjectCubit extends Cubit<ProjectState> {
   ProjectCubit({ProjectState? project}) : super(project ?? const ProjectState());
+
+  void updateName(String value) {
+    emit(state.copyWith(name: value));
+  }
+
+  void updateDescription(String value) {
+    emit(state.copyWith(description: value));
+  }
+
+  void addDiaryId(int value) {
+    emit(state.copyWith(diaryIds: List.from(state.diaryIds)..add(value)));
+  }
+
+  void removeDiaryId(int value) {
+    emit(state.copyWith(diaryIds: List.from(state.diaryIds)..remove(value)));
+  }
 }

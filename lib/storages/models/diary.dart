@@ -12,7 +12,7 @@ class Diary {
   String? description;
   String? mark;
   String? category;
-  List<String>? videoPaths;
-  List<String>? imagePaths;
+  String? videoPath;
+  String? imagePath;
   List<int>? projectIds;
 }

@@ -1,3 +1,9 @@
+import 'package:beta_winker_proj/pages/community_page.dart';
+import 'package:beta_winker_proj/pages/diary_page.dart';
+import 'package:beta_winker_proj/pages/ecology_tips_page.dart';
+import 'package:beta_winker_proj/pages/natural_world_events_page.dart';
+import 'package:beta_winker_proj/pages/observation_map_page.dart';
+import 'package:beta_winker_proj/pages/projects_page.dart';
 import 'package:beta_winker_proj/ui_kit/app_colors.dart';
 import 'package:beta_winker_proj/ui_kit/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +19,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 30.w, horizontal: 25.w),
+            padding: EdgeInsets.symmetric(vertical: 24.w, horizontal: 25.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,22 +38,30 @@ class MainPage extends StatelessWidget {
                     _CardBtn(
                         iconPath: 'assets/icons/arcticons_diary.svg',
                         text: 'Observation diary',
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                            builder: (BuildContext context) => DiaryPage())
+                        ),
                     ),
                     _CardBtn(
                       iconPath: 'assets/icons/Connector.svg',
                       text: 'Projects',
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) => ProjectsPage())),
                     ),
                     _CardBtn(
                       iconPath: 'assets/icons/Solar Panel.svg',
                       text: 'Observation map',
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext context) => ObservationMapPage())
+                      ),
                     ),
                     _CardBtn(
                       iconPath: 'assets/icons/World.svg',
                       text: 'Сommunity',
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext context) => CommunityPage())
+                      ),
                     ),
                   ],
                 ),
@@ -55,9 +69,12 @@ class MainPage extends StatelessWidget {
                 Text('Information of the day', style: AppStyles.gilroyMediumGreen(18.sp),
                 ),
                 _UnderBtn(text: 'Ecology tips',
-                    onPressed: () {}),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (BuildContext context) => EcologyTipsPage())
+                    )),
                 _UnderBtn(text: 'Events in the natural world',
-                    onPressed: () {}),
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext context) => NaturalWorldEventsPage()))),
               ],
             ),
           )

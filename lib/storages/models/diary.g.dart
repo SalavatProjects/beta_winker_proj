@@ -32,10 +32,10 @@ const DiarySchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'imagePaths': PropertySchema(
+    r'imagePath': PropertySchema(
       id: 3,
-      name: r'imagePaths',
-      type: IsarType.stringList,
+      name: r'imagePath',
+      type: IsarType.string,
     ),
     r'mark': PropertySchema(
       id: 4,
@@ -52,10 +52,10 @@ const DiarySchema = CollectionSchema(
       name: r'subject',
       type: IsarType.string,
     ),
-    r'videoPaths': PropertySchema(
+    r'videoPath': PropertySchema(
       id: 7,
-      name: r'videoPaths',
-      type: IsarType.stringList,
+      name: r'videoPath',
+      type: IsarType.string,
     )
   },
   estimateSize: _diaryEstimateSize,
@@ -91,15 +91,9 @@ int _diaryEstimateSize(
     }
   }
   {
-    final list = object.imagePaths;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
+    final value = object.imagePath;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
     }
   }
   {
@@ -121,15 +115,9 @@ int _diaryEstimateSize(
     }
   }
   {
-    final list = object.videoPaths;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
+    final value = object.videoPath;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
     }
   }
   return bytesCount;
@@ -144,11 +132,11 @@ void _diarySerialize(
   writer.writeString(offsets[0], object.category);
   writer.writeDateTime(offsets[1], object.date);
   writer.writeString(offsets[2], object.description);
-  writer.writeStringList(offsets[3], object.imagePaths);
+  writer.writeString(offsets[3], object.imagePath);
   writer.writeString(offsets[4], object.mark);
   writer.writeLongList(offsets[5], object.projectIds);
   writer.writeString(offsets[6], object.subject);
-  writer.writeStringList(offsets[7], object.videoPaths);
+  writer.writeString(offsets[7], object.videoPath);
 }
 
 Diary _diaryDeserialize(
@@ -162,11 +150,11 @@ Diary _diaryDeserialize(
   object.date = reader.readDateTimeOrNull(offsets[1]);
   object.description = reader.readStringOrNull(offsets[2]);
   object.id = id;
-  object.imagePaths = reader.readStringList(offsets[3]);
+  object.imagePath = reader.readStringOrNull(offsets[3]);
   object.mark = reader.readStringOrNull(offsets[4]);
   object.projectIds = reader.readLongList(offsets[5]);
   object.subject = reader.readStringOrNull(offsets[6]);
-  object.videoPaths = reader.readStringList(offsets[7]);
+  object.videoPath = reader.readStringOrNull(offsets[7]);
   return object;
 }
 
@@ -184,7 +172,7 @@ P _diaryDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
@@ -192,7 +180,7 @@ P _diaryDeserializeProp<P>(
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -699,76 +687,75 @@ extension DiaryQueryFilter on QueryBuilder<Diary, Diary, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsIsNull() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'imagePaths',
+        property: r'imagePath',
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsIsNotNull() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'imagePaths',
+        property: r'imagePath',
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementEqualTo(
-    String value, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathEqualTo(
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'imagePaths',
+        property: r'imagePath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition>
-      imagePathsElementGreaterThan(
-    String value, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathGreaterThan(
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'imagePaths',
+        property: r'imagePath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementLessThan(
-    String value, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathLessThan(
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'imagePaths',
+        property: r'imagePath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementBetween(
-    String lower,
-    String upper, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathBetween(
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'imagePaths',
+        property: r'imagePath',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -778,156 +765,71 @@ extension DiaryQueryFilter on QueryBuilder<Diary, Diary, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementStartsWith(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'imagePaths',
+        property: r'imagePath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementEndsWith(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'imagePaths',
+        property: r'imagePath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementContains(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'imagePaths',
+        property: r'imagePath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementMatches(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'imagePaths',
+        property: r'imagePath',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsElementIsEmpty() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'imagePaths',
+        property: r'imagePath',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition>
-      imagePathsElementIsNotEmpty() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'imagePaths',
+        property: r'imagePath',
         value: '',
       ));
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'imagePaths',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'imagePaths',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'imagePaths',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'imagePaths',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'imagePaths',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> imagePathsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'imagePaths',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
     });
   }
 
@@ -1375,76 +1277,75 @@ extension DiaryQueryFilter on QueryBuilder<Diary, Diary, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsIsNull() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'videoPaths',
+        property: r'videoPath',
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsIsNotNull() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'videoPaths',
+        property: r'videoPath',
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementEqualTo(
-    String value, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathEqualTo(
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'videoPaths',
+        property: r'videoPath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition>
-      videoPathsElementGreaterThan(
-    String value, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathGreaterThan(
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'videoPaths',
+        property: r'videoPath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementLessThan(
-    String value, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathLessThan(
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'videoPaths',
+        property: r'videoPath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementBetween(
-    String lower,
-    String upper, {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathBetween(
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'videoPaths',
+        property: r'videoPath',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1454,156 +1355,71 @@ extension DiaryQueryFilter on QueryBuilder<Diary, Diary, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementStartsWith(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'videoPaths',
+        property: r'videoPath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementEndsWith(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'videoPaths',
+        property: r'videoPath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementContains(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'videoPaths',
+        property: r'videoPath',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementMatches(
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'videoPaths',
+        property: r'videoPath',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsElementIsEmpty() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'videoPaths',
+        property: r'videoPath',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<Diary, Diary, QAfterFilterCondition>
-      videoPathsElementIsNotEmpty() {
+  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'videoPaths',
+        property: r'videoPath',
         value: '',
       ));
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'videoPaths',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'videoPaths',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'videoPaths',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'videoPaths',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'videoPaths',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Diary, Diary, QAfterFilterCondition> videoPathsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'videoPaths',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
     });
   }
 }
@@ -1649,6 +1465,18 @@ extension DiaryQuerySortBy on QueryBuilder<Diary, Diary, QSortBy> {
     });
   }
 
+  QueryBuilder<Diary, Diary, QAfterSortBy> sortByImagePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imagePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Diary, Diary, QAfterSortBy> sortByImagePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imagePath', Sort.desc);
+    });
+  }
+
   QueryBuilder<Diary, Diary, QAfterSortBy> sortByMark() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mark', Sort.asc);
@@ -1670,6 +1498,18 @@ extension DiaryQuerySortBy on QueryBuilder<Diary, Diary, QSortBy> {
   QueryBuilder<Diary, Diary, QAfterSortBy> sortBySubjectDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'subject', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Diary, Diary, QAfterSortBy> sortByVideoPath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'videoPath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Diary, Diary, QAfterSortBy> sortByVideoPathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'videoPath', Sort.desc);
     });
   }
 }
@@ -1723,6 +1563,18 @@ extension DiaryQuerySortThenBy on QueryBuilder<Diary, Diary, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Diary, Diary, QAfterSortBy> thenByImagePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imagePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Diary, Diary, QAfterSortBy> thenByImagePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imagePath', Sort.desc);
+    });
+  }
+
   QueryBuilder<Diary, Diary, QAfterSortBy> thenByMark() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mark', Sort.asc);
@@ -1744,6 +1596,18 @@ extension DiaryQuerySortThenBy on QueryBuilder<Diary, Diary, QSortThenBy> {
   QueryBuilder<Diary, Diary, QAfterSortBy> thenBySubjectDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'subject', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Diary, Diary, QAfterSortBy> thenByVideoPath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'videoPath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Diary, Diary, QAfterSortBy> thenByVideoPathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'videoPath', Sort.desc);
     });
   }
 }
@@ -1769,9 +1633,10 @@ extension DiaryQueryWhereDistinct on QueryBuilder<Diary, Diary, QDistinct> {
     });
   }
 
-  QueryBuilder<Diary, Diary, QDistinct> distinctByImagePaths() {
+  QueryBuilder<Diary, Diary, QDistinct> distinctByImagePath(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'imagePaths');
+      return query.addDistinctBy(r'imagePath', caseSensitive: caseSensitive);
     });
   }
 
@@ -1795,9 +1660,10 @@ extension DiaryQueryWhereDistinct on QueryBuilder<Diary, Diary, QDistinct> {
     });
   }
 
-  QueryBuilder<Diary, Diary, QDistinct> distinctByVideoPaths() {
+  QueryBuilder<Diary, Diary, QDistinct> distinctByVideoPath(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'videoPaths');
+      return query.addDistinctBy(r'videoPath', caseSensitive: caseSensitive);
     });
   }
 }
@@ -1827,9 +1693,9 @@ extension DiaryQueryProperty on QueryBuilder<Diary, Diary, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Diary, List<String>?, QQueryOperations> imagePathsProperty() {
+  QueryBuilder<Diary, String?, QQueryOperations> imagePathProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'imagePaths');
+      return query.addPropertyName(r'imagePath');
     });
   }
 
@@ -1851,9 +1717,9 @@ extension DiaryQueryProperty on QueryBuilder<Diary, Diary, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Diary, List<String>?, QQueryOperations> videoPathsProperty() {
+  QueryBuilder<Diary, String?, QQueryOperations> videoPathProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'videoPaths');
+      return query.addPropertyName(r'videoPath');
     });
   }
 }

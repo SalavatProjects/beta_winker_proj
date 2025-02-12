@@ -1,7 +1,6 @@
 part of 'diary_cubit.dart';
 
-class DiaryState extends Equatable{
-
+class DiaryState extends Equatable {
   const DiaryState({
     this.id,
     this.subject = '',
@@ -9,9 +8,9 @@ class DiaryState extends Equatable{
     this.description = '',
     this.mark = '',
     this.category = '',
-    this.videoPaths = const [],
-    this.imagePaths = const [],
-    this.projects = const [],
+    this.videoPath = '',
+    this.imagePath = '',
+    this.projectIds = const [],
   });
 
   final int? id;
@@ -20,15 +19,11 @@ class DiaryState extends Equatable{
   final String description;
   final String mark;
   final String category;
-  final List<String> videoPaths;
-  final List<String> imagePaths;
-  final List<ProjectState> projects;
+  final String videoPath;
+  final String imagePath;
+  final List<int> projectIds;
 
-  @override
-  // TODO: implement props
-  List<Object?> get props => [id, subject, date, description, mark, category, videoPaths, imagePaths, projects];
-
-  Future<DiaryState> fromIsarModel(Diary diary) async {
+  factory DiaryState.fromIsarModel(Diary diary) {
     return DiaryState(
       id: diary.id,
       subject: diary.subject ?? '',
@@ -36,11 +31,58 @@ class DiaryState extends Equatable{
       description: diary.description ?? '',
       mark: diary.mark ?? '',
       category: diary.category ?? '',
-      videoPaths: diary.videoPaths ?? const [],
-      imagePaths: diary.imagePaths ?? const [],
-      // projects: diary.projects.filter().findAll();
+      videoPath: diary.videoPath ?? '',
+      imagePath: diary.imagePath ?? '',
+      projectIds: List<int>.from(diary.projectIds ?? []),
     );
   }
 
-}
+  @override
+  List<Object?> get props => [
+    id,
+    subject,
+    date,
+    description,
+    mark,
+    category,
+    videoPath,
+    imagePath,
+    projectIds,
+  ];
 
+  DiaryState copyWith({
+    int? id,
+    String? subject,
+    DateTime? date,
+    String? description,
+    String? mark,
+    String? category,
+    String? videoPath,
+    String? imagePath,
+    List<int>? projectIds,
+  }) {
+    return DiaryState(
+      id: id ?? this.id,
+      subject: subject ?? this.subject,
+      date: date ?? this.date,
+      description: description ?? this.description,
+      mark: mark ?? this.mark,
+      category: category ?? this.category,
+      videoPath: videoPath ?? this.videoPath,
+      imagePath: imagePath ?? this.imagePath,
+      projectIds: projectIds ?? this.projectIds,
+    );
+  }
+
+  Diary toIsarModel() {
+    return Diary()
+      ..subject = subject
+      ..date = date
+      ..description = description
+      ..mark = mark
+      ..category = category
+      ..videoPath = videoPath
+      ..imagePath = imagePath
+      ..projectIds = projectIds;
+  }
+}

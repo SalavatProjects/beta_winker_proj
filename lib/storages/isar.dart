@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'package:beta_winker_proj/storages/models/category.dart';
+import 'package:beta_winker_proj/storages/models/mark.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'models/diary.dart';
-import 'models/filters.dart';
 import 'models/location.dart';
 import 'models/project.dart';
 
@@ -12,11 +13,17 @@ abstract class AppIsarDatabase {
   static Future<Isar> init() async {
     final dir = await getApplicationDocumentsDirectory();
     return _instance = await Isar.open(
-        [DiarySchema, FiltersSchema, LocationSchema, ProjectSchema],
+        [DiarySchema, LocationSchema, ProjectSchema, MarkSchema, CategorySchema],
         directory: dir.path);
   }
 
-  static Future<Filters?> getFilters() async {
+  /*static Future<Filters?> getFilters() async {
+    if (await _instance.filters.where().findFirst() == null) {
+      Filters newFilters = Filters()..id = 1;
+      await _instance.writeTxn(
+              () async => await _instance.filters.put(newFilters)
+      );
+    }
     return await _instance.writeTxn(
         () async => await _instance.filters.where().findFirst(),
     );
@@ -32,7 +39,7 @@ abstract class AppIsarDatabase {
         return await _instance.filters.put(filters);
       }
     });
-  }
+  }*/
 
   static Future<List<Diary>> getDiaries() async {
     return await _instance.writeTxn(
@@ -85,5 +92,23 @@ abstract class AppIsarDatabase {
     });
   }
 
+  static Future<List<Mark>> getMarks() async {
+    return await _instance.writeTxn(
+          () async => await _instance.marks.where().findAll(),
+    );
+  }
 
+  static Future<void> addMark(Mark mark) async {
+    await _instance.writeTxn(() async => await _instance.marks.put(mark));
+  }
+
+  static Future<List<Category>> getCategories() async {
+    return await _instance.writeTxn(
+          () async => await _instance.categorys.where().findAll(),
+    );
+  }
+
+  static Future<void> addCategory(Category category) async {
+    await _instance.writeTxn(() async => await _instance.categorys.put(category));
+  }
 }
