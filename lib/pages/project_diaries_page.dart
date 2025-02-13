@@ -41,6 +41,8 @@ class ProjectDiariesPage extends StatelessWidget {
                 selector: (state) => state.diaries,
                 builder: (context, diaries) {
                   final List<DiaryState> projectDiaries = diaries.where((e) => e.projectIds.contains(projectId)).toList();
+                  print(diaries);
+                  // print(projectId);
                   if (projectDiaries.isNotEmpty) {
                     return SingleChildScrollView(
                       child: Column(

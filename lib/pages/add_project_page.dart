@@ -209,8 +209,16 @@ class _AddProjectPageState extends State<AddProjectPage> {
                       return YellowBtn(
                           text: 'Save',
                           isActive: _isSaveBtnActive,
-                          onPressed: () {
-                            context.read<EntitiesCubit>().addProject(state);
+                          onPressed: () async {
+                            await context.read<EntitiesCubit>().addProject(state);
+                            if (!context.mounted) return;
+                            List<ProjectState> projects = context.read<EntitiesCubit>().state.projects;
+                            for (var project in projects) {
+                              for (var diaryId in project.diaryIds) {
+                                await context.read<EntitiesCubit>().updateDiaryProjectIds(diaryId, project.id!);
+                              }
+                            }
+                            if (!context.mounted) return;
                             Navigator.of(context).pop();
                           });
                     },

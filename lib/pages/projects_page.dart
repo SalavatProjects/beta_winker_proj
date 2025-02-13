@@ -24,21 +24,22 @@ class ProjectsPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24.w),
-          child: Column(
-            children: [
-              SizedBox(
-                width: 130.w,
-                height: 24.w,
-                child: SvgPicture.asset('assets/icons/BetaWinker.svg'),
-              ),
-              SizedBox(height: 7.w,),
-              CustomAppBar(text: 'Projects'),
-              BlocSelector<EntitiesCubit, EntitiesState, List<ProjectState>>(
-                selector: (state) => state.projects,
-                builder: (context, projects) {
-                  if (projects.isNotEmpty) {
-                    return SingleChildScrollView(
-                      child: Column(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 130.w,
+                  height: 24.w,
+                  child: SvgPicture.asset('assets/icons/BetaWinker.svg'),
+                ),
+                SizedBox(height: 7.w,),
+                CustomAppBar(text: 'Projects'),
+                BlocSelector<EntitiesCubit, EntitiesState, List<ProjectState>>(
+                  selector: (state) => state.projects,
+                  builder: (context, projects) {
+                    // print(projects);
+                    if (projects.isNotEmpty) {
+                      return Column(
                         children: [
                           ...List.generate(
                               projects.length,
@@ -72,37 +73,37 @@ class ProjectsPage extends StatelessWidget {
                               )
                           ),
                         ],
-                      ),
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        SizedBox(height: 118.w,),
-                        Text('There are no projects yet', style: AppStyles.gilroyMediumGrey1(15.sp),),
-                        SizedBox(height: 28.w,),
-                        YellowBtn(
-                            text: 'Create projects',
-                            onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(builder: (BuildContext context) =>
-                                    MultiBlocProvider(
-                                      providers: [
-                                        BlocProvider(create: (context) => ProjectCubit()),
-                                        BlocProvider(create: (context) => MarkCubit()),
-                                        BlocProvider(create: (context) => CategoryCubit())
-                                      ],
-                                      child: AddProjectPage(),
-                                    )
-                                )
-                            )
-                        ),
-
-                      ],
-                    );
-                  }
-
-                },
-              )
-            ],
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          SizedBox(height: 118.w,),
+                          Text('There are no projects yet', style: AppStyles.gilroyMediumGrey1(15.sp),),
+                          SizedBox(height: 28.w,),
+                          YellowBtn(
+                              text: 'Create projects',
+                              onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (BuildContext context) =>
+                                      MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider(create: (context) => ProjectCubit()),
+                                          BlocProvider(create: (context) => MarkCubit()),
+                                          BlocProvider(create: (context) => CategoryCubit())
+                                        ],
+                                        child: AddProjectPage(),
+                                      )
+                                  )
+                              )
+                          ),
+            
+                        ],
+                      );
+                    }
+            
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

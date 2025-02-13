@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:beta_winker_proj/ui_kit/widgets/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NatureEventPage extends StatelessWidget {
   final String imagePath;
@@ -57,7 +58,9 @@ class NatureEventPage extends StatelessWidget {
                                   child: Text(head, style: AppStyles.gilroySemiBoldBlack(15.sp),),
                                 ),
                                 CupertinoButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Share.share('$head \n\n $text');
+                                  },
                                   padding: EdgeInsets.zero,
                                   child: SizedBox(
                                     width: 24.w,

@@ -55,6 +55,16 @@ abstract class AppIsarDatabase {
     await _instance.writeTxn(() async => await _instance.diarys.delete(id));
   }
 
+  static Future<void> updateDiaryProjectIds(int id, List<int> newProjectIds) async {
+    await _instance.writeTxn(() async {
+      final diary = await _instance.diarys.get(id);
+      if (diary != null) {
+        diary.projectIds = newProjectIds;
+        return await _instance.diarys.put(diary);
+      }
+    });
+  }
+
   static Future<List<Project>> getProjects() async {
     return await _instance.writeTxn(
         () async => await _instance.projects.where().findAll(),

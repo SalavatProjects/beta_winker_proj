@@ -3,6 +3,7 @@ import 'package:beta_winker_proj/bloc/project_cubit.dart';
 import 'package:beta_winker_proj/storages/isar.dart';
 import 'package:beta_winker_proj/storages/models/category.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -39,6 +40,20 @@ class EntitiesCubit extends Cubit<EntitiesState> {
   Future<void> deleteDiary(int id) async {
     await AppIsarDatabase.deleteDiary(id);
     await getDiaries();
+  }
+
+  Future<void> updateDiaryProjectIds(int id, int newProjectId) async {
+    DiaryState? diary = state.diaries.firstWhereOrNull((e) => e.id == id);
+    if (diary != null) {
+      List<int> diaryProjectIds = List.from(diary.projectIds);
+        if (!diaryProjectIds.contains(newProjectId)) {
+          diaryProjectIds.add(newProjectId);
+        }
+
+      await AppIsarDatabase.updateDiaryProjectIds(id, diaryProjectIds);
+      await getDiaries();
+    }
+
   }
 
   Future<void> getProjects() async {

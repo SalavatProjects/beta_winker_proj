@@ -26,7 +26,7 @@ class CommunityPage extends StatefulWidget {
 class _CommunityPageState extends State<CommunityPage> {
   final TextEditingController _searchEditingController = TextEditingController();
   List<DiaryState> _searchedDiaries = [];
-  Random _random = Random();
+  final Random _random = Random();
 
   @override
   void dispose() {
@@ -72,7 +72,9 @@ class _CommunityPageState extends State<CommunityPage> {
                                     controller: _searchEditingController,
                                     style: AppStyles.gilroyMediumGreen(15.sp),
                                     onChanged: (value) {
-
+                                      setState(() {
+                                        _searchedDiaries = context.read<EntitiesCubit>().state.diaries.where((e) => e.subject.startsWith(value)).toList();
+                                      });
                                     },
                                     decoration: InputDecoration(
                                         icon: SvgPicture.asset('assets/icons/Search.svg'),
@@ -120,8 +122,13 @@ class _CommunityPageState extends State<CommunityPage> {
                                               int likesCount = _random.nextInt(1001);
                                               int viewsCount = _random.nextInt(1001);
                                               int commentsCount = _random.nextInt(10);
-                                              LocationState location = context.read<EntitiesCubit>().state.locations[
-                                                _random.nextInt(context.read<EntitiesCubit>().state.locations.length)];
+                                              LocationState? location;
+                                              if (context.read<EntitiesCubit>().state.locations.isNotEmpty)
+                                                {
+                                                  location = context.read<EntitiesCubit>().state.locations[
+                                                  _random.nextInt(context.read<EntitiesCubit>().state.locations.length)];
+                                                }
+
                                               return _DiaryCardBtn(
                                                   diary: _searchedDiaries[index],
                                                   likesCount: likesCount,
@@ -147,7 +154,7 @@ class _CommunityPageState extends State<CommunityPage> {
                               return Column(
                                 children: [
                                   SizedBox(height: 118.w,),
-                                  Text('There are no diaries yet', style: AppStyles.gilroyMediumGrey1(15.sp),),
+                                  Text('There are no diaries founded', style: AppStyles.gilroyMediumGrey1(15.sp),),
                                 ],
                               );
                             }

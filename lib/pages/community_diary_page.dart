@@ -17,7 +17,7 @@ import '../ui_kit/app_colors.dart';
 
 class CommunityDiaryPage extends StatelessWidget {
   final DiaryState diary;
-  final LocationState location;
+  final LocationState? location;
   int likesCount;
   int viewsCount;
   int commentsCount;
@@ -127,7 +127,8 @@ class CommunityDiaryPage extends StatelessWidget {
                     SizedBox(height: 14.w,),
                     Text('Location', style: AppStyles.gilroyRegularLightBlack(12.sp),),
                     SizedBox(height: 4.w,),
-                    _LocationCard(name: location.name),
+                    if (location != null)
+                    _LocationCard(name: location!.name),
                     SizedBox(height: 14.w,),
                     Text(diary.description, style: AppStyles.gilroyRegularGrey2(12.sp), maxLines: 3, overflow: TextOverflow.ellipsis,),
                     SizedBox(height: 14.w,),

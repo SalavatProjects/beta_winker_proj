@@ -162,6 +162,8 @@ class _FilterPageState extends State<FilterPage> {
                             Column(
                               children: [
                                 SizedBox(height: 118.w,),
+                                Text('There are no diaries founded', style: AppStyles.gilroyMediumGrey1(15.sp),),
+                                SizedBox(height: 44.w,),
                                 YellowBtn(
                                     text: 'Search',
                                     onPressed: () => _search(),
